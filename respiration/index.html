@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Respiration guidée · Technart</title>
+<style>
+:root{--bg:#050a14;--card:#101c33;--card2:#14233f;--line:#1e2f50;--txt:#e8eefc;--mut:#8a9bbd;--blue:#5aa2f0;--warm:#e08a6a;--green:#4aa889;--violet:#8a74d6}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+.wrap{max-width:560px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:2rem;margin:8px 0 4px;letter-spacing:-.02em}
+.sub{color:var(--mut);margin:0 0 24px}
+h2{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin:30px 0 10px;font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 18px;width:100%;text-align:left;display:block;margin-bottom:10px}
+.card:active{background:var(--card2)}
+.card b{display:block;font-size:1.05rem;margin-bottom:3px}
+.card span{color:var(--mut);font-size:.9rem;line-height:1.4;display:block}
+.hero{background:linear-gradient(135deg,#17315d,#12243f);border-color:#2a4a82}
+.hero ol{margin:10px 0 0;padding-left:20px;color:#b8c8e8;font-size:.9rem;line-height:1.6}
+.tag{float:right;color:var(--blue);font-size:.8rem;margin-top:3px}
+.custom{display:none;margin-top:6px}
+.custom.open{display:block}
+.row{display:flex;align-items:center;gap:12px;margin:12px 0}
+.row label{flex:0 0 110px;font-size:.9rem;color:var(--mut)}
+.row input{flex:1;accent-color:var(--blue)}
+.row output{flex:0 0 52px;text-align:right;font-variant-numeric:tabular-nums}
+.go{background:var(--blue);color:#06101f;border:0;border-radius:999px;padding:14px;width:100%;font-weight:700;font-size:1rem;margin-top:8px}
+.note{color:var(--mut);font-size:.8rem;line-height:1.5;margin-top:26px}
+/* session */
+#session{position:fixed;inset:0;background:var(--bg);display:none;flex-direction:column;align-items:center;padding:env(safe-area-inset-top) 18px env(safe-area-inset-bottom)}
+#session.on{display:flex}
+.top{width:100%;max-width:560px;display:flex;align-items:center;justify-content:space-between;padding:16px 0;color:var(--mut);font-size:.9rem}
+.ic{background:#1d2c49;border:0;border-radius:50%;width:40px;height:40px;font-size:1.1rem}
+.stepinfo{text-align:center;color:var(--mut);font-size:.9rem;min-height:2.6em}
+.stepinfo b{color:var(--txt);display:block;font-size:1rem}
+.stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%}
+.orbbox{width:min(78vw,340px);height:min(78vw,340px);border:2px solid #223a63;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:border-color .6s}
+#orb{width:100%;height:100%;border-radius:50%;transform:scale(.3);background:radial-gradient(circle at 50% 50%,var(--c1),var(--c2));box-shadow:0 0 80px var(--glow);transition:background .6s,box-shadow .6s;will-change:transform}
+.in{--c1:#4f8fd6;--c2:#2c5586;--glow:#2f5f9a55}
+.out{--c1:#c9795c;--c2:#6f4234;--glow:#c9795c33}
+.hold{--c1:#5fb59a;--c2:#2b5a4c;--glow:#4aa88933}
+#phase{font-size:1.6rem;letter-spacing:.2em;text-transform:uppercase;margin-top:34px;font-weight:600;text-align:center;transition:color .4s}
+#count{font-size:3rem;font-variant-numeric:tabular-nums;color:var(--mut);margin-top:6px;min-height:1.2em}
+.bottom{width:100%;max-width:560px;padding:12px 0 22px;display:flex;flex-direction:column;gap:10px;align-items:center}
+.pill{background:#1d2c49;border:0;border-radius:999px;padding:13px 26px;min-width:210px}
+.pill.main{background:var(--green);color:#04120d;font-weight:700}
+.link{background:none;border:0;color:var(--mut);padding:8px}
+#end{position:fixed;inset:0;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}
+#end.on{display:flex}
+#end h1{margin-bottom:6px}
+#end p{color:var(--mut);margin:4px 0}
+</style>
+</head>
+<body>
+
+<div class="wrap" id="home">
+  <h1>Respiration guidée</h1>
+  <p class="sub">Technart · routine matinale tolérance au CO₂ et gestion du stress</p>
+
+  <button class="card hero" data-s="routine">
+    <b>Routine matinale <span class="tag" style="display:inline">≈ 17 min</span></b>
+    <ol>
+      <li>Cyclic Sighing · 3 min</li>
+      <li>Box Breathing progressif 4-5-6 · 4 min</li>
+      <li>Rétentions poumons vides · 4 tours</li>
+      <li>Coherent Breathing · 5 min</li>
+    </ol>
+  </button>
+
+  <h2>Techniques seules</h2>
+  <button class="card" data-s="sigh"><b>Cyclic Sighing</b><span>Double inspiration par le nez, longue expiration. 3 min. Fait baisser le stress rapidement.</span></button>
+  <button class="card" data-s="box"><b>Box Breathing</b><span>Inspire, retiens, expire, retiens. Passe de 4 à 5 puis 6 secondes par phase. 4 min.</span></button>
+  <button class="card" data-s="hold"><b>Rétentions poumons vides</b><span>4 tours : expire doucement, retiens jusqu'à la première envie de respirer, récupère. Chronomètre de tes rétentions.</span></button>
+  <button class="card" data-s="coh"><b>Coherent Breathing</b><span>5,5 s d'inspiration, 5,5 s d'expiration. 5 min. Régule le système nerveux.</span></button>
+  <button class="card" data-s="478"><b>4-7-8</b><span>Inspire 4 s, retiens 7 s, expire 8 s. 4 min. Pour l'endormissement.</span></button>
+
+  <h2>Personnalisé</h2>
+  <button class="card" id="ctoggle"><b>Ton propre rythme</b><span>Règle les quatre phases et la durée.</span></button>
+  <div class="card custom" id="cbox">
+    <div class="row"><label>Inspiration</label><input type="range" id="c0" min="1" max="30" step="0.5"><output></output></div>
+    <div class="row"><label>Rétention pleine</label><input type="range" id="c1" min="0" max="30" step="0.5"><output></output></div>
+    <div class="row"><label>Expiration</label><input type="range" id="c2" min="1" max="30" step="0.5"><output></output></div>
+    <div class="row"><label>Rétention vide</label><input type="range" id="c3" min="0" max="30" step="0.5"><output></output></div>
+    <div class="row"><label>Durée</label><input type="range" id="c4" min="1" max="30" step="1"><output></output></div>
+    <button class="go" data-s="custom">Démarrer</button>
+  </div>
+
+  <p class="note">Respire par le nez, assis. Ne pratique jamais les rétentions dans l'eau ni en conduisant. Déconseillé en cas de grossesse, de problème cardiaque ou d'épilepsie. Arrête-toi en cas de vertige.</p>
+</div>
+
+<div id="session">
+  <div class="top">
+    <button class="ic" id="close" aria-label="Fermer">✕</button>
+    <span id="remain">0:00</span>
+    <button class="ic" id="snd" aria-label="Son">🔊</button>
+  </div>
+  <div class="stepinfo"><b id="sname"></b><span id="sidx"></span></div>
+  <div class="stage">
+    <div class="orbbox"><div id="orb" class="in"></div></div>
+    <div id="phase">Prêt</div>
+    <div id="count"></div>
+  </div>
+  <div class="bottom">
+    <button class="pill main" id="manual" style="display:none">J'ai besoin de respirer</button>
+    <button class="pill" id="pause">Pause</button>
+    <button class="link" id="skip">Passer l'étape</button>
+  </div>
+</div>
+
+<div id="end">
+  <h1>Séance terminée</h1>
+  <p id="endtime"></p>
+  <p id="endholds"></p>
+  <button class="go" id="back" style="max-width:320px;margin-top:26px">Retour</button>
+</div>
+
+<script>
+// Phase : [libellé, secondes (null = manuel), échelle départ, échelle arrivée, type]
+const IN=.9, MID=.55, LOW=.3;
+const boxPat=n=>[['Inspire',n,LOW,IN,'in'],['Retiens',n,IN,IN,'hold'],['Expire',n,IN,LOW,'out'],['Retiens',n,LOW,LOW,'hold']];
+const SIGH={name:'Cyclic Sighing',cycles:18,pat:[['Inspire',3,LOW,.75,'in'],['Petite inspiration',1,.75,IN,'in'],['Expire longuement',6,IN,LOW,'out']]};
+const BOX=[{name:'Box Breathing 4-4-4-4',cycles:4,pat:boxPat(4)},{name:'Box Breathing 5-5-5-5',cycles:3,pat:boxPat(5)},{name:'Box Breathing 6-6-6-6',cycles:5,pat:boxPat(6)}];
+const COH={name:'Coherent Breathing 5,5 / 5,5',cycles:27,pat:[['Inspire',5.5,LOW,IN,'in'],['Expire',5.5,IN,LOW,'out']]};
+const B478={name:'4-7-8',cycles:13,pat:[['Inspire',4,LOW,IN,'in'],['Retiens',7,IN,IN,'hold'],['Expire',8,IN,LOW,'out']]};
+const HOLD={name:'Rétentions poumons vides',rounds:4};
+
+const SESSIONS={
+  routine:[SIGH,...BOX,HOLD,COH],
+  sigh:[SIGH], box:BOX, hold:[HOLD], coh:[COH], '478':[B478]
+};
+
+function flatten(steps){
+  const out=[];
+  steps.forEach((st,si)=>{
+    const meta={name:st.name,si,sn:steps.length};
+    if(st.rounds){
+      for(let r=1;r<=st.rounds;r++){
+        const m={...meta,sub:'Tour '+r+'/'+st.rounds};
+        out.push({...m,label:'Expire doucement',dur:4,from:.5,to:LOW,kind:'out'});
+        out.push({...m,label:'Retiens, poumons vides',dur:null,from:LOW,to:LOW,kind:'hold',manual:true});
+        for(let c=0;c<4;c++){
+          out.push({...m,label:'Inspire',dur:4,from:LOW,to:.8,kind:'in'});
+          out.push({...m,label:'Expire',dur:6,from:.8,to:LOW,kind:'out'});
+        }
+      }
+    } else {
+      for(let c=0;c<st.cycles;c++) st.pat.forEach(p=>out.push({...meta,sub:'Cycle '+(c+1)+'/'+st.cycles,label:p[0],dur:p[1],from:p[2],to:p[3],kind:p[4]}));
+    }
+  });
+  return out;
+}
+
+const $=id=>document.getElementById(id);
+const orb=$('orb');
+let tl=[],idx=0,t0=0,raf=0,paused=false,pausedAt=0,soundOn=true,actx=null,holds=[],wake=null,startedAt=0;
+
+function tone(kind){
+  if(!soundOn||!actx) return;
+  const f={in:523.25,out:392,hold:440}[kind]||440;
+  const o=actx.createOscillator(),g=actx.createGain(),n=actx.currentTime;
+  o.type='sine';o.frequency.value=f;
+  g.gain.setValueAtTime(0,n);g.gain.linearRampToValueAtTime(.09,n+.05);g.gain.exponentialRampToValueAtTime(.0001,n+.7);
+  o.connect(g).connect(actx.destination);o.start(n);o.stop(n+.75);
+  try{navigator.vibrate&&navigator.vibrate(25)}catch(e){}
+}
+const ease=f=>.5-.5*Math.cos(Math.PI*f);
+const fmt=s=>{s=Math.max(0,Math.round(s));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+
+function remainingFrom(k,elapsed){
+  let s=0;
+  for(let j=k;j<tl.length;j++){ if(tl[j].dur) s+=tl[j].dur; }
+  return s-elapsed;
+}
+function enter(k){
+  idx=k;const p=tl[k];t0=performance.now();
+  orb.className=p.kind;
+  $('phase').textContent=p.label;
+  $('phase').style.color={in:'var(--blue)',out:'var(--warm)',hold:'var(--green)'}[p.kind];
+  $('sname').textContent=p.name;
+  $('sidx').textContent='Étape '+(p.si+1)+'/'+p.sn+' · '+p.sub;
+  $('manual').style.display=p.manual?'':'none';
+  tone(p.kind);
+}
+function frame(now){
+  if(paused) return;
+  const p=tl[idx],e=(now-t0)/1000;
+  if(p.manual){
+    orb.style.transform='scale('+p.to+')';
+    $('count').textContent=Math.floor(e)+' s';
+    $('remain').textContent='rétention';
+  } else {
+    const f=Math.min(e/p.dur,1);
+    orb.style.transform='scale('+(p.from+(p.to-p.from)*ease(f))+')';
+    $('count').textContent=Math.ceil(p.dur-e);
+    $('remain').textContent='reste ≈ '+fmt(remainingFrom(idx,e));
+    if(e>=p.dur){ next(); }
+  }
+  raf=requestAnimationFrame(frame);
+}
+function next(){
+  if(idx+1>=tl.length){ finish(); return; }
+  enter(idx+1);
+}
+function skipStep(){
+  const si=tl[idx].si;let k=idx;
+  while(k<tl.length&&tl[k].si===si) k++;
+  if(k>=tl.length) finish(); else enter(k);
+}
+function begin(steps){
+  tl=flatten(steps);holds=[];paused=false;startedAt=Date.now();
+  try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();actx.resume&&actx.resume()}catch(e){}
+  try{navigator.wakeLock&&navigator.wakeLock.request('screen').then(w=>wake=w).catch(()=>{})}catch(e){}
+  $('session').classList.add('on');
+  $('pause').textContent='Pause';
+  enter(0);cancelAnimationFrame(raf);raf=requestAnimationFrame(frame);
+}
+function stop(){
+  cancelAnimationFrame(raf);paused=false;
+  $('session').classList.remove('on');
+  try{wake&&wake.release();wake=null}catch(e){}
+}
+function finish(){
+  stop();
+  const secs=Math.round((Date.now()-startedAt)/1000);
+  $('endtime').textContent='Durée : '+fmt(secs);
+  $('endholds').textContent=holds.length?'Rétentions : '+holds.map(h=>Math.round(h)+' s').join(' · ')+' (meilleure : '+Math.round(Math.max(...holds))+' s)':'';
+  $('end').classList.add('on');
+}
+
+$('manual').onclick=()=>{
+  const e=(performance.now()-t0)/1000;holds.push(e);next();
+};
+$('pause').onclick=()=>{
+  if(!paused){paused=true;pausedAt=performance.now();$('pause').textContent='Reprendre';}
+  else{paused=false;t0+=performance.now()-pausedAt;$('pause').textContent='Pause';raf=requestAnimationFrame(frame);}
+};
+$('skip').onclick=skipStep;
+$('close').onclick=stop;
+$('snd').onclick=()=>{soundOn=!soundOn;$('snd').textContent=soundOn?'🔊':'🔇';};
+$('back').onclick=()=>$('end').classList.remove('on');
+
+// Personnalisé
+const defaults=[4,0,6,0,5];
+let saved=defaults;
+try{const s=JSON.parse(localStorage.getItem('technart-breath-custom')||'null');if(Array.isArray(s)&&s.length===5)saved=s;}catch(e){}
+const sl=[0,1,2,3,4].map(i=>$('c'+i));
+function upd(){
+  sl.forEach((el,i)=>{el.nextElementSibling.textContent=i===4?el.value+' min':(+el.value).toString().replace('.',',')+' s';});
+  try{localStorage.setItem('technart-breath-custom',JSON.stringify(sl.map(e=>+e.value)));}catch(e){}
+}
+sl.forEach((el,i)=>{el.value=saved[i];el.oninput=upd;});upd();
+$('ctoggle').onclick=()=>$('cbox').classList.toggle('open');
+
+function customSession(){
+  const [a,b,c,d,m]=sl.map(e=>+e.value);
+  const pat=[['Inspire',a,LOW,IN,'in']];
+  if(b>0)pat.push(['Retiens',b,IN,IN,'hold']);
+  pat.push(['Expire',c,IN,LOW,'out']);
+  if(d>0)pat.push(['Retiens',d,LOW,LOW,'hold']);
+  const len=a+b+c+d;
+  return [{name:'Personnalisé '+[a,b,c,d].join('-'),cycles:Math.max(1,Math.round(m*60/len)),pat}];
+}
+document.querySelectorAll('[data-s]').forEach(b=>b.addEventListener('click',()=>{
+  const k=b.dataset.s;
+  begin(k==='custom'?customSession():SESSIONS[k]);
+}));
+</script>
+</body>
+</html>
